@@ -156,7 +156,14 @@ namespace AssemblyData {
 				else
 					ilg.Emit(OpCodes.Castclass, arg);
 			}
-			ilg.Emit(OpCodes.Call, method);
+			if (method.IsGenericMethod)
+			{
+				ilg.Emit(OpCodes.Call, method.MakeGenericMethod(typeof(string)));
+			}
+			else
+			{
+				ilg.Emit(OpCodes.Call, method);
+			}
 			ilg.Emit(OpCodes.Ret);
 		}
 
